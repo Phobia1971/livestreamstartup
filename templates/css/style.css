@@ -4,6 +4,12 @@ html,body {
 	height:100%;
 }
 
+{main_wrapper}
+
+{header}
+
+{login_box}
+
 {navbar}
 
 .container {
@@ -14,25 +20,9 @@ html,body {
 	height:auto;
 	display:block;
 }
-.header {
-	position:absolute;
-	top:0px;
-	left:0px;
-	display:block;
-	background-color:#008000;
-	height:80px;
-	width:800px;
-}
 
-.login_box {
-	position:absolute;
-	top:5px;
-	left:665px;
-	width:130px;
-	height:70px;
-	background-color:red;
-	display:block;
-}
+
+
 
 .left_choice {
 	position:absolute;

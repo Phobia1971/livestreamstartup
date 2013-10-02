@@ -4,7 +4,10 @@
 	require_once("../classes/class.Logging.php");
 
 	class TGeneralPageClass {
+		protected $flags;
+
 		function __construct($className) {
+			$this->flags['content_exists'] = 0;
 			$this->className = $className;
 
 			$this->Sanitization = new TSanitization();
@@ -33,14 +36,23 @@
 
 		function createContent() {
 
-			if (preg_match('!^/css/(.*?)$!imsx', $_SERVER['REQUEST_URI'], $pmatches)) {
+			if (preg_match('!^/css/(.*?)$!imsx', URI, $pmatches)) {
 				$this->Logging->log("preg_match");
 				// If a CSS file is being requested
 				$filename = "../templates/css/".$pmatches[1];
 
 				if (file_exists($filename)) {
-					$this->Logging->log("This executes.");
-					$content = file_get_contents($filename);
+					$this->Logging->log("Css file: $filename found.");
+					$this->content = file_get_contents($filename);
+					$placeholders = $this->findPlaceholders($this->content);
+					foreach ($placeholders as $placeholder) {
+						$placeholder = trim($placeholder,"{}");
+						$filename = "../templates/divcss/".$placeholder.".css";
+						if (file_exists($filename)) {
+							$newcontent = file_get_contents($filename);
+							$this->content = str_replace('{'.$placeholder.'}', $newcontent, $this->content);
+						}
+					}
 				}
 
 			} else {
@@ -55,15 +67,13 @@
 					$content = file_get_contents($filename);
 
 					// Any placeholders need to change here.
-					$content = str_replace('{submit_url}', '/'.$className.'/submit', $content);
+					$this->content = str_replace('{submit_url}', '/'.$className.'/submit', $content);
 
 					$this->flags['content_exists'] = 1;
 				} else {
 					echo "Page content not found.";
 				}
 			}
-
-			$this->content = $content;
 		}
 
 		function assignPlaceholder($placeholder) {
@@ -74,6 +84,12 @@
 			}
 
 		}
+
+		protected function findPlaceholders($data)
+	    {
+	        preg_match_all("/{.*?}/", $data, $placeholders, PREG_PATTERN_ORDER);
+	        return $placeholders[0];
+	    }
 
 		function showContent() {
 			// If the flag is set, or if $this->content exists

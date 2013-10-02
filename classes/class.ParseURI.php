@@ -58,7 +58,7 @@
 
 		function doAuthentication() {
 
-			if ($_POST['submit'] == 'Submit') {
+			if (isset($_POST["submit"]) && $_POST['submit'] == 'Submit') {
 				// They submitted the login form
 
 				if ($this->Authentication->checkUserPass()) {

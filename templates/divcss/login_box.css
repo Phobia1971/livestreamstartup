@@ -1,0 +1,9 @@
+.login_box {
+    position:absolute;
+    top:5px;
+    left:665px;
+    width:130px;
+    height:70px;
+    background-color:red;
+    display:block;
+}

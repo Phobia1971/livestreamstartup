@@ -1,8 +1,25 @@
 .navbar {
-	position:absolute;
-	top:0px;
 	width:800px;
-	height:20px;
+	height:30px;
 	background-color:black;
 	display:block;
+    z-index: 20;
+    font-size: 12px;
+    line-height: 21px;
+}
+.navbar ul {
+    list-style-type: none;
+}
+.navbar ul li {
+    display: inline-block;
+}
+.navbar ul li a {
+    background-color: white;
+    color: black;
+    padding: 0px 10px;
+    margin: 0px 5px;
+    text-decoration: none;
+}
+.navbar ul li a:hover {
+    background-color: gray;
 }

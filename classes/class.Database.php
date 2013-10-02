@@ -1,14 +1,13 @@
 <?php
-	require_once("../classes/class.Logging.php");
 
 	class TDatabase {
 		function __construct() {
 			$this->Logging = new TLogging();
 
-			if ($this->database = mysqli_connect("localhost","root","livestream!","users")) {
+			if ($this->database = mysqli_connect("localhost","root","","livestream")) {
 				$this->Logging->log(__FILE__."||".__CLASS__."||".__LINE__."||Connected to database.");
 			} else {
-				$this->Logging->log("Could not connect to database.");
+				$this->Logging->log("Could not connect to database: ".$database->connect_error);
 			}
 		}
 
