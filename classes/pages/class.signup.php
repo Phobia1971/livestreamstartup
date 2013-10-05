@@ -1,13 +1,19 @@
 <?php
 
 	class TPageClass extends TGeneralPageClass {
-		function init() {
-			$this->database = new TDatabase();
 
-			if (!isset($_POST['submit'])) {
-				$this->createContent();
-				$this->showContent();
-			}
+		function init() {
+
+			$this->createContent();
+			
+			$this->assignPlaceholder("main_wrapper");
+
+			$placeholders = array('copyright','navbar', 'signup', 'login', 'bottom_nav', 'footer');
+			$this->assignPlaceholder($placeholders);
+
+			$this->showContent();
+
+			$this->database = new TDatabase();
 		}
 
 		function handleFormSubmission() {

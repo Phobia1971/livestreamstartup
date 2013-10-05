@@ -1,0 +1,48 @@
+.left_choice {
+    position:absolute;
+    left:0px;
+    height:390px;
+    width:48%;
+    padding: 5px;
+    background-color: #aaaaaa;
+}
+.left_choice h1 {
+    margin: 0px;
+    padding-left: 0px;
+    line-height: 30px;
+}
+.left_choice span {
+    font-size: 12px;
+    display: inline-block;
+}
+.left_choice .to_hire {
+    position: relative;
+    width: 90%;
+    height: 300px;
+    margin: 0px auto;
+    margin-top: 10px;
+    padding: 5px;
+    border: 1px dashed black;
+    moz-border-radius: 5px;
+    webkit-border-radius: 5px;
+    ms-border-radius: 5px;
+    o-border-radius: 5px;
+    border-radius: 5px;
+}
+.to_hire img {
+    float: left;
+    margin-right: 5px;
+    margin-bottom: 5px;
+    border-style: none;
+}
+.to_hire .poster_info {
+    font-size: 16px;
+    float: left;
+    width: 200px;
+}
+.to_hire .job_info {
+    margin: 5px 5px;
+    padding-left: 10px;
+    border-bottom: 1px solid black;
+    border-top: 1px solid black;
+}

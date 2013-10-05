@@ -1,0 +1,13 @@
+<main_wrapper>
+    <navbar/>
+    <container>
+        <header>
+            <login/>
+        </header>
+        <choice_wrapper>
+            <signup/>
+        </choice_wrapper>
+        <bottom_nav/>
+    </container>
+    <footer/>
+</main_wrapper>

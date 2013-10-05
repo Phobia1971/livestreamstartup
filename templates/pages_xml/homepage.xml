@@ -1,0 +1,15 @@
+<main_wrapper>
+    <navbar/>
+    <container>
+        <header>
+            <logo/>
+            <login/>
+        </header>
+        <choice_wrapper>
+            <left_choice/>
+            <right_choice/>
+        </choice_wrapper>
+        <bottom_nav/>
+    </container>
+    <footer/>
+</main_wrapper>

@@ -1,8 +1,5 @@
 <?php
 
-	require_once("../classes/class.GeneralPageClass.php");
-	require_once("../classes/class.Database.php");
-
 	class TPageClass extends TGeneralPageClass {
 		function init() {
 			// Send appropriate headers to web browser to ensure css is handled properly.

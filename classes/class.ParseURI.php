@@ -4,56 +4,56 @@
 	require_once("../classes/class.Authentication.php");
 
 	class TParseURI {
+		private $ControllerVars;
+
 		function __construct($uri) {
 			// Authentication class for checking if someone is logged in, etc.
 			$this->Authentication 	= new TAuthentication();
 			$this->doAuthentication();
-
-			if (preg_match('!^/([^/]+)!imsx', $uri, $pmatches)) {
-				$className = $pmatches[1];
+			// !^/([^/]+)!imsx
+			if (preg_match_all('/([a-zA-Z0-9]+)/ixsm', $uri, $pmatches)) {
+				$this->pmatches = $pmatches[0];
+				$this->className = array_shift($this->pmatches);
 			} else {
-				$className = 'homepage';
+				$this->className = 'homepage';
 			}
 
-			if (strlen($className) > 32) {
+			if (strlen($this->className) > 32) {
 				// TODO : Logging Message
 				die("Unexpected error.");
 			}
 
-			$className = preg_replace('![^a-z0-9]!imsx', '', $className);
+			$this->className = preg_replace('![^a-z0-9]!imsx', '', $this->className);
 
 			// At this point, $className is sanitized
-
-			if (file_exists("../classes/pages/class.".$className.".php")) {
-				require_once("../classes/pages/class.".$className.".php");
-				$pageClass = new TPageClass($className);
-
+			if (file_exists("../classes/pages/class.".$this->className.".php")) {
+				require_once("../classes/pages/class.".$this->className.".php");
+				TGeneralPageClass::$_logged_in = $this->ControllerVars['loggedin'];
+				$this->pageClass = new TPageClass($this->className);
+				$this->runMethod();				
 			} else {
-				die("Page not found.");
+				die("Page not found. "."../classes/pages/class.".$this->className.".php");
 			}
-
-
-			$this->pageName = '';
-
-			// Root URL     : http://www.livestreamstartup.com/  
-			if ($uri == '/') {
-				$this->pageName = 'root';
-			}
-
-			// /signup		: http://www.livestreamstartup.com/signup
-			if ($uri == '/signup') {
-				$this->pageName = 'signup';
-			}
-
-			// /login		: http://www.livestreamstartup.com/login
-			if ($uri == '/login') {
-				$this->pageName = 'login';
-			}
-
 		}
 
 		function getPageName() {
 			return $this->pageName;
+		}
+
+		private function runMethod()
+		{			
+			if(isset($this->pmatches[0])) 
+			{
+				$method = array_shift($this->pmatches);
+				if(method_exists($this->pageClass, $method))
+				{
+					$this->pageClass->$method($this->pmatches);
+				} else {
+					$this->pageClass->init();
+				}
+			} else {
+				$this->pageClass->init();
+			}
 		}
 
 		function doAuthentication() {
@@ -62,9 +62,10 @@
 				// They submitted the login form
 
 				if ($this->Authentication->checkUserPass()) {
-					$ControllerVars['loggedin'] = 1;
+					$ControllerVars['loggedin'] = true;
 					$this->Authentication->successfulLogin();
 				} else {
+					$ControllerVars['loggedin'] = false;
 					$this->Authentication->failedLogin();
 				} 
 			}
@@ -74,13 +75,13 @@
 
 			if ($this->Authentication->isAuthorized()) {
 				// Logged in
-				$ControllerVars['loggedin'] = 1;
+				$ControllerVars['loggedin'] = true;
 			} else {
 				// Not Logged in
 
 			}
 
-			if ($ControllerVars['loggedin'] == 0) {
+			if ($ControllerVars['loggedin'] == false) {
 				// Not logged in
 			}
 
